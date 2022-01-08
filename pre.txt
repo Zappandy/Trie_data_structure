@@ -1,7 +1,0 @@
-word	Freq
-reporters	82
-reported	609
-reportable	5
-reportage	63
-report	3900
-reporter	241

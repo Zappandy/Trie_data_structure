@@ -1,4 +1,0 @@
-word	Freq
-gol	5
-UN	7
-una	2
