@@ -1,0 +1,14 @@
+word	Freq
+gol	5
+UN	7
+golazo	1
+tRabaja	6
+tRabajador	3
+una	7
+nota	1
+no	6
+predeterminado	2
+precaucion	2
+precavido	2
+pregunta	2
+determinado	6
