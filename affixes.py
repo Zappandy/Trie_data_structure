@@ -5,10 +5,10 @@ from trie import *
 
 
 class SuffixScoring:
-    def __init__(self, alpha, A, B, beta, trie_instance):
+    def __init__(self, boundary, affix, trie_instance):
         self.affixTrie = trie_instance
-        self.boundary = alpha + A
-        self.affix = B + beta
+        self.boundary = boundary
+        self.affix = affix
         self.score = 0
         self.boundary_test_flag = False
 
@@ -19,19 +19,13 @@ class SuffixScoring:
         return alpha_a_freq, alpha_freq, b_freq 
 
     def boundaryTests(self):
-        frequencies = self.freqBuilder()
-        test_1 = self.boundaryTest_1(self.boundary)  # washington paper considers this for German and maybe Spanish as well
-        test_2 = self.boundaryTest_2(frequencies[0], frequencies[1])
-        test_3 = self.boundaryTest_3(frequencies[2], frequencies[0])
-        if (test_1 and test_2 and test_3):
+        self.freqBuilder()
+        if self.boundaryTest_2(freq1, freq2) and self.boundaryTest_3(freq3, freq4):
             self.score += 19
         else:
             self.score = -1
-        return (self.boundary, self.affix), self.score
+        return self.score
 
-    def boundaryTest_1(self, stem):
-        if self.affixTrie.hasWord(stem): 
-            return True
 
     def boundaryTest_2(self, freq_1, freq_2):
         conditional_prob = self.conditionalProbability(freq_1, freq_2)
@@ -46,8 +40,7 @@ class SuffixScoring:
     @staticmethod
     def conditionalProbability(freq_1, freq_2):
         if freq_2 == 0:
-            return -1  # can't divide by 0. FIX
-        #print(freq_1 / freq_2)
+            return -1 
         return freq_1 / freq_2
 
 class PrefixScoring(SuffixScoring):

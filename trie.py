@@ -10,12 +10,12 @@ class TrieDS:
         if frequency == 0:
             print("No given frequency, initializing with 0")
         add_entry =  self.RootNode.addEntry(word, frequency)
-        print(f"Adding {word} {add_entry}")
+        #print(f"Adding {word} {add_entry}")
         return add_entry
 
     def hasWord(self, word):
         has_word = self.RootNode.hasWord(word)
-        print(f"Checking for {word} {has_word}")
+        #print(f"Checking for {word} {has_word}")
         return has_word
 
     def getFrequency(self, word):
