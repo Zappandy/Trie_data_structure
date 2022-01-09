@@ -50,10 +50,4 @@ spanish_corpus.apply(lambda row: affixBuilder(MyTrie, row["word"]), axis=1)
 
 top_suffixes
 top_prefixes
-# https://albertauyeung.github.io/2020/06/15/python-trie.html/
-# https://www.aleksandrhovhannisyan.com/blog/trie-data-structure-implementation-in-python/
-# https://towardsdatascience.com/pandas-concat-tricks-you-should-know-to-speed-up-your-data-analysis-cd3d4fdfe6dd
-# http://morpho.aalto.fi/events/morphochallenge2005/P05_KeshavaPitler.pdf
-# https://slideplayer.com/slide/5016724/
-# https://www.geeksforgeeks.org/selecting-rows-in-pandas-dataframe-based-on-conditions/
-#https://digital.lib.washington.edu/researchworks/bitstream/handle/1773/22453/Lushtak_washington_0250O_11149.pdf?sequence=1
+
