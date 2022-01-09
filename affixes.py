@@ -156,8 +156,3 @@ def top_affixes(ranked_affixes, percentage):
     """
     return ranked_affixes[:round(percentage * len(ranked_affixes)) + 1]
 
-ranked_suffixes = rank_affixes(ranked_suffixes)
-ranked_prefixes = rank_affixes(ranked_prefixes)
-
-top_suffixes = top_affixes(ranked_suffixes, 0.4)
-top_prefixes = top_affixes(ranked_prefixes, 0.4)

@@ -10,8 +10,9 @@ from affixes import *
 def clean_corpus(file):
     df =  pd.read_csv(file, delimiter='\t')
     df.dropna(inplace=True)
-    df = df[df["Freq"] > 201]  # mutates index, hence why .loc is better
-    df = df[df["Freq"] > 100]  # mutates index, hence why .loc is better
+    df = df[df["Freq"] > 90]  # mutates index, hence why .loc is better. okay speed at 100
+    #  differentce between 90 and 80 not too great but there's 10k rows of more data
+    # so go with 90
     df.loc[:, "word"] = df["word"].str.lower()
     df = df[df["word"].apply(spanish_alphabet)]   
     df.drop_duplicates(subset=["word"], keep="first", inplace=True)
@@ -48,6 +49,12 @@ spanish_corpus.apply(lambda row: MyTrie.addWord(row["word"], row["Freq"]), axis=
 spanish_corpus.apply(lambda row: MyTrie.hasWord(row["word"]), axis=1)
 spanish_corpus.apply(lambda row: affixBuilder(MyTrie, row["word"]), axis=1)
 
-top_suffixes
-top_prefixes
+ranked_suffixes = rank_affixes(ranked_suffixes)
+ranked_prefixes = rank_affixes(ranked_prefixes)
+top_suffixes = top_affixes(ranked_suffixes, 0.05)
+top_prefixes = top_affixes(ranked_prefixes, 0.05)  
 
+print(len(top_suffixes))
+print(len(top_prefixes))
+print(top_suffixes[:10])
+print(top_prefixes[:10])
