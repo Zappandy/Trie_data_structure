@@ -6,53 +6,13 @@ import string
 from trie import *
 from affixes import *
 
-#%% Testing system... 
-#goodwords = ["report", "reporter", "reporters", "reported",
-#             "reportable", "reportage", "reportages", "reporting"] 
-#badwords = ["repo", "save", 't', "ejis", "rep"]
-#MyTrie = TrieDS()
-#print("----Adding Words to Trie----")
-#for word in goodwords:
-#    MyTrie.addWord(word)
-#print("----Checking if all good words return True----")
-#goodwords += ["tito"]
-#for word in goodwords:
-#    MyTrie.hasWord(word)
-#    boundaryChecker(MyTrie, word)
 
-#badwords += ["report"]
-#print("----Checking if all bad words return False----")
-#for word in badwords:
-#    MyTrie.hasWord(word)
-
-#%%
-
-ranked_suffixes = dict()
-ranked_prefixes = dict()
-def affixBuilder(trie_strc, word):
-    for i, char in enumerate(word):  # for 2 char words there won't be any freqs added
-        score = 0
-        if i < (len(word) - 1):
-            stem = word[:i+1]
-            suffix = word[i+1:]
-            if not trie_strc.hasWord(stem):
-                score -= 1
-            else:
-                suffix_testing = SuffixScoring(stem, affix)
-                suffix_score = suffix_testing.boundaryTests()
-                ranked_suffixes.setdefault((boundary, suffix_score)
-            # can't test right now
-            #prefix_testing = PrefixScoring(word[:i], word[i], word[i+1], word[i+2:], trie_strc)
-            #boundary_prefix, prefix_score = prefix_testing.boundaryTests()
-            #ranked_prefixes.setdefault(boundary_prefix[::-1], prefix_score)
-            #real_prefixes = [morpheme[1] for morpheme in ranked_prefixes.keys()]
-            #if boundary_prefix[1] in real_prefixes:
-            #    ranked_prefixes[boundary_prefix[::-1]] += prefix_score
 #%%
 def clean_corpus(file):
     df =  pd.read_csv(file, delimiter='\t')
     df.dropna(inplace=True)
     df = df[df["Freq"] > 201]  # mutates index, hence why .loc is better
+    df = df[df["Freq"] > 100]  # mutates index, hence why .loc is better
     df.loc[:, "word"] = df["word"].str.lower()
     df = df[df["word"].apply(spanish_alphabet)]   
     df.drop_duplicates(subset=["word"], keep="first", inplace=True)
@@ -81,32 +41,16 @@ def spanish_alphabet(word):  # 2min
 
 
 #%%
-#spanish_corpus = clean_corpus("clean_spanish.txt")  
-spanish_corpus = clean_corpus("test_trie.txt")  
+
+spanish_corpus = clean_corpus("clean_spanish.txt")  
 print(spanish_corpus)
 MyTrie = TrieDS()
 spanish_corpus.apply(lambda row: MyTrie.addWord(row["word"], row["Freq"]), axis=1)  # map may be faster
-# two methods to append a row and show that elements are not in the trie
-#test = test.append({"word": "tito", "Freq": 69}, ignore_index=True)
-#data = pd.Series(data={"word": "tito", "Freq": 90}, name=test.shape[0])
-#test = test.append(data, ignore_index=False)
-
 spanish_corpus.apply(lambda row: MyTrie.hasWord(row["word"]), axis=1)
 spanish_corpus.apply(lambda row: affixBuilder(MyTrie, row["word"]), axis=1)
-# 0 in affix is the key and 1 the value
-ranked_suffixes = dict(filter(lambda affix: affix[1] > 0, ranked_suffixes.items()))
-#ranked_prefixes = dict(filter(lambda affix: affix[1] > 0, ranked_prefixes.items()))
 
-print(ranked_suffixes.keys())
-#print(ranked_prefixes.keys())
-ranked_suffixes = sorted(ranked_suffixes.keys(), key=ranked_suffixes.get, reverse=True)
-#ranked_prefixes = sorted(ranked_prefixes.keys(), key=ranked_prefixes.get, reverse=True)
-ranked_suffixes = [word[1] for word in ranked_suffixes]
-print(ranked_suffixes)
-top_suffixes = ranked_suffixes[:round(0.4 * len(ranked_suffixes)) + 1] # Maybe don't add 1
-print(top_suffixes)
-#print(bool(ranked_prefixes))
-
+top_suffixes
+top_prefixes
 # https://albertauyeung.github.io/2020/06/15/python-trie.html/
 # https://www.aleksandrhovhannisyan.com/blog/trie-data-structure-implementation-in-python/
 # https://towardsdatascience.com/pandas-concat-tricks-you-should-know-to-speed-up-your-data-analysis-cd3d4fdfe6dd
