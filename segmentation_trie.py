@@ -1,5 +1,4 @@
 #!/bin/bash
-# grouping and labeling
 
 import pandas as pd
 import string

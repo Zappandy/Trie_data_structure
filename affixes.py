@@ -1,7 +1,3 @@
-import pandas as pd
-from trie import *
-
-
 ranked_suffixes = dict()  # initialized as global variables
 ranked_prefixes = dict()  # initialized as global variables
 
