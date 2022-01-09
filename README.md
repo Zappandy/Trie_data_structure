@@ -31,3 +31,14 @@ After having figured out addEntry, hasWord was much more straightforward and to 
 I think a defaultdict may have been faster than the current implementation and I wish I would've implemented a shell file to automatically remove 4 empty lines from the corpus instead of doing it manually. Evidence of this is found in the segmentation script where I have a bash line to improve this implementation down the line
 
 ## 2.7 Segmentation comments
+
+
+# Resources - Bibliography
+
+- https://albertauyeung.github.io/2020/06/15/python-trie.html/
+- https://www.aleksandrhovhannisyan.com/blog/trie-data-structure-implementation-in-python/
+- https://towardsdatascience.com/pandas-concat-tricks-you-should-know-to-speed-up-your-data-analysis-cd3d4fdfe6dd
+- http://morpho.aalto.fi/events/morphochallenge2005/P05_KeshavaPitler.pdf
+- https://slideplayer.com/slide/5016724/
+- https://www.geeksforgeeks.org/selecting-rows-in-pandas-dataframe-based-on-conditions/
+- https://digital.lib.washington.edu/researchworks/bitstream/handle/1773/22453/Lushtak_washington_0250O_11149.pdf?sequence=1
