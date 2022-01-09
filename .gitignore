@@ -7,8 +7,5 @@
 # ignore __pycache__
 *.pyc
 
-# ignore *.csv we are using feather instead
-*.csv
-
-#ignore all .txt files
+# ignore all .txt files
 *.txt
