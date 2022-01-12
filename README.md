@@ -1,5 +1,7 @@
 # Instructions
 
+**Warning**: \*.txt files are not in the repo. Have access to a corpus with 2 columns (word, Freq) in order to test this out.
+
 The main script is **segmentation_trie.py**. Therein, both the trie.py and affixes.py have been imported. The former creates the trie structure without using any external libraries. Affixes.py contains 2 custom classes and 3 functions to create the top affixes. 
 
 In the segmentation module, both the data cleaning and segmentation are performed. Vectorized methods were implemented with pandas to speed up function and class implementation. However, even with that in mind, filtering out words using frequencies is needed to reduce the dataset from 3 million to 120000.
