@@ -148,8 +148,6 @@ def affixBuilder(trie_strc, word):
 
     if tied_prefixes and max_pr_score:
         clean_pref_segmentation = dict(filter(lambda score: score[1][0] == max_pr_score, tied_prefixes.items()))
-
-
         prefix_boundary = [(affix, boundary[1]) for affix, boundary in clean_pref_segmentation.items()]
         prefix_segmentation.extend(suffix_boundary)
 
@@ -180,4 +178,3 @@ def top_affixes(ranked_affixes, percentage):
     40% of leading affixes will be returned. 
     """
     return ranked_affixes[:round(percentage * len(ranked_affixes)) + 1]
-
