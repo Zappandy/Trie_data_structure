@@ -42,3 +42,4 @@ I think a defaultdict may have been faster than the current implementation and I
 - https://slideplayer.com/slide/5016724/
 - https://www.geeksforgeeks.org/selecting-rows-in-pandas-dataframe-based-on-conditions/
 - https://digital.lib.washington.edu/researchworks/bitstream/handle/1773/22453/Lushtak_washington_0250O_11149.pdf?sequence=1
+ipynb-py-convert segmentation_trie.py demo_segmentation.ipynb

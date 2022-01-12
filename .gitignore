@@ -9,3 +9,6 @@
 
 # ignore all .txt files
 *.txt
+
+# ignore ipython notebook check_points
+.ipynb_checkpoints/
