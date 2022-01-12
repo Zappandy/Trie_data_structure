@@ -7,5 +7,5 @@
 # ignore __pycache__
 *.pyc
 
-# ignore all .txt files
-*.txt
+# ignore repo_submission link .txt files
+trie_repoLink.txt

@@ -6,6 +6,7 @@ class TrieDS:
         """
         print("I am the Root Node, I have no name")
         self.RootNode = TrieNode("")  # create an instance
+        self.segmented_words = []  # to append results
 
     def addWord(self, word, frequency=0):
         """
@@ -36,8 +37,8 @@ class TrieDS:
         """
         frequency = self.RootNode.getFrequency(word)
         return frequency
-
-class TrieNode:
+    
+class TrieNode(TrieDS):
 
     def __init__(self, myCharName):
 
@@ -108,4 +109,5 @@ class TrieNode:
                 break
             node = node.getChildNode(char)
         return node.endToken
+
 

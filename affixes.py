@@ -1,5 +1,8 @@
-ranked_suffixes = dict()  # initialized as global variables
-ranked_prefixes = dict()  # initialized as global variables
+# initialized as global variables and passed to segmentation script
+ranked_suffixes = dict()  
+ranked_prefixes = dict()  
+prefix_segmentation = list()  
+suffix_segmentation = list()  
 
 class SuffixScoring:
     def __init__(self, stem, suffix, trie_instance):
@@ -109,25 +112,46 @@ def affixBuilder(trie_strc, word):
     word: string to be sliced to score its affixes
     returns None, but populates global dictionaries
     """
+    tied_suffixes = {}
+    tied_prefixes = {}
     for i, char in enumerate(word):  # for 2 char words there won't be any freqs added
         if i < (len(word) - 1):
             stem = prefix = word[:i+1]
             suffix = leaf = word[i+1:]
+
             ranked_suffixes.setdefault(suffix, 0)  # to avoid overwriting existing affixes
             if not trie_strc.hasWord(stem):  # Test 1
                 ranked_suffixes[suffix] -= 1
             else:
-                suffix_testing = SuffixScoring(stem, suffix, trie_strc)
-                ranked_suffixes[suffix] += suffix_testing.boundaryTests()
+                suffix_score = SuffixScoring(stem, suffix, trie_strc).boundaryTests()
+                ranked_suffixes[suffix] += suffix_score
+                if trie_strc.hasWord(stem + suffix):
+                    tied_suffixes[suffix] = (suffix_score, stem)
+                    max_sf_score = max(v[0] for v in tied_suffixes.values())
 
             # same as above, but computing prefixes instead
             ranked_prefixes.setdefault(prefix, 0)
             if not trie_strc.hasWord(leaf):
                 ranked_prefixes[prefix] -= 1
             else:
-                prefix_testing = PrefixScoring(prefix, leaf, trie_strc)
-                ranked_prefixes[prefix] += prefix_testing.boundaryTests()
+                prefix_score = PrefixScoring(prefix, leaf, trie_strc).boundaryTests()
+                ranked_prefixes[prefix] += prefix_score
+                if trie_strc.hasWord(prefix + leaf):
+                    tied_prefixes[prefix] = (prefix_score, leaf)
+                    max_pr_score = max(v[0] for v in tied_prefixes.values())
 
+    if tied_suffixes and max_sf_score:
+        clean_suff_segmentation = dict(filter(lambda score: score[1][0] == max_sf_score, tied_suffixes.items()))
+        suffix_boundary = [(boundary[1], affix) for affix, boundary in clean_suff_segmentation.items()]
+        suffix_segmentation.extend(suffix_boundary)
+
+
+    if tied_prefixes and max_pr_score:
+        clean_pref_segmentation = dict(filter(lambda score: score[1][0] == max_pr_score, tied_prefixes.items()))
+
+
+        prefix_boundary = [(affix, boundary[1]) for affix, boundary in clean_pref_segmentation.items()]
+        prefix_segmentation.extend(suffix_boundary)
 
 def rank_affixes(ranked_affixes):
     """
@@ -137,7 +161,8 @@ def rank_affixes(ranked_affixes):
     """
     affixes = ranked_affixes.items()
     # 0 in affix is the key and 1 the value
-    return sort_affixes(dict(filter(lambda affix: affix[1] > 0, affixes)))
+    return dict(filter(lambda affix: affix[1] > 0, affixes))
+    #return sort_affixes(dict(filter(lambda affix: affix[1] > 0, affixes)))
 
 def sort_affixes(ranked_affixes):
     """
