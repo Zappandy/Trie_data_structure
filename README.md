@@ -32,14 +32,22 @@ I think a defaultdict may have been faster than the current implementation and I
 
 ## 2.7 Segmentation comments
 
+Segmentation was mostly performed with the original trie_segmentation script, but a demo ipython notebook was added via the following command
 
-# Resources - Bibliography
+```bash
+ipynb-py-convert segmentation_trie.py demo_segmentation.ipynb
+```
+Initially the segmentation was performed with an additional trie structure wherein the words had been reversed to perform analysis of stem + suffixes as if they were prefix + stem. While an interesting idea, this was extremely inefficent. Therefore, the better solution was to perform it dynamically while building the affixes and scoring them. This also helped to allevate issues with affix and words that had the same scores. However, to actually break these ties, word pruning should be implemented. This can be expanded by fetching the frequencies during the iteration of affix building. From there we can create a hash table (a dictionary) to perform computations to find the most suitable affix. This can be by fetching the max frequency or max score + frequency. The following paper by [Lushtak form 2012](https://digital.lib.washington.edu/researchworks/bitstream/handle/1773/22453/Lushtak_washington_0250O_11149.pdf?sequence=1) contains interesting experiments on this front that are out of the scope of this project.
 
-- https://albertauyeung.github.io/2020/06/15/python-trie.html/
-- https://www.aleksandrhovhannisyan.com/blog/trie-data-structure-implementation-in-python/
+The current segmentation may have been overengineered and in fact a simple depth first search in the trie may have been more efficent to query the system with a given affix. Albert Yeung's implementation of [data structures](https://albertauyeung.github.io/) reflect this faster solution. Albeit with no frequencies. 
+
+Interestingly enough, the prefix slicing and handling declines when accessing words with frequencies lower than 600. Whereas suffix slicing sees virtually no changes. This is actually an advantage because it means the script can run faster. Unfortunately when dropping the frequency condition to 70, the trie really slows down and since the segmentation implementation is not optimized, we also see these runtime issues.
+
+Additional comments have been made about the segmentation in the trie_segmentation and demo scripts. Further experiments can be performed to include other top affixes, since the current program is only checking the top 5% affixes.
+
+# Resources to solve main computational challenges during implementation
+
 - https://towardsdatascience.com/pandas-concat-tricks-you-should-know-to-speed-up-your-data-analysis-cd3d4fdfe6dd
 - http://morpho.aalto.fi/events/morphochallenge2005/P05_KeshavaPitler.pdf
 - https://slideplayer.com/slide/5016724/
 - https://www.geeksforgeeks.org/selecting-rows-in-pandas-dataframe-based-on-conditions/
-- https://digital.lib.washington.edu/researchworks/bitstream/handle/1773/22453/Lushtak_washington_0250O_11149.pdf?sequence=1
-ipynb-py-convert segmentation_trie.py demo_segmentation.ipynb
