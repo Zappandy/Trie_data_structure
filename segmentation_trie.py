@@ -1,4 +1,4 @@
-# %%
+
 
 import pandas as pd
 import string
@@ -8,7 +8,7 @@ import time  # tacky way to time program's execution time
 from trie import *
 from affixes import *
 
-# %%
+
 start = time.time()
 def clean_corpus(file):
     """
@@ -57,8 +57,6 @@ def spanish_alphabet(word):
     return flag
 
 
-# %%
-
 spanish_corpus = clean_corpus("clean_spanish.txt")  
 print(spanish_corpus)
 MyTrie = TrieDS()
@@ -66,7 +64,7 @@ spanish_corpus.apply(lambda row: MyTrie.addWord(row["word"], row["Freq"]), axis=
 spanish_corpus.apply(lambda row: MyTrie.hasWord(row["word"]), axis=1)
 spanish_corpus.apply(lambda row: affixBuilder(MyTrie, row["word"]), axis=1)  # don't need to do this twice
 
-# %%
+
 ranked_suffixes = sort_affixes(rank_affixes(ranked_suffixes))
 ranked_prefixes = sort_affixes(rank_affixes(ranked_prefixes))
 top_suffixes = top_affixes(ranked_suffixes, 0.05)
@@ -77,13 +75,13 @@ print(len(top_prefixes))
 print(top_suffixes[:10])
 print(top_prefixes[:10])
 
-# %%
+
 random.shuffle(prefix_segmentation)
 random.shuffle(suffix_segmentation)
 print(prefix_segmentation[:10])
 print(suffix_segmentation[:10])
 
-# %% 
+ 
 # this is when the script starts running slower. This can be further optimized
 def dup_affixes(segmentation):
     """
@@ -95,7 +93,7 @@ def dup_affixes(segmentation):
 
 dup_prefixes = dup_affixes(prefix_segmentation)
 dup_suffixes = dup_affixes(suffix_segmentation)
-# %%
+
 def cleaning_affixes(segmentation, dup_affix):
     """
     segmentation: dictionary containing its respective word and segmentation
